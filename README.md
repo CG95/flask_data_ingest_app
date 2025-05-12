@@ -4,7 +4,7 @@
 ## Create a Virtual Environment for Running the App
 python -m venv flask_env
 
-# A .env file is need to store the environment variables or setting the environment variables directly in the terminal
+# A .env file is needed to store the environment variables or setting the environment variables directly in the terminal
 # The variables to be set are:
 - `DATABASE_URL`
 - `REDIS_URL`

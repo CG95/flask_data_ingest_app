@@ -7,4 +7,3 @@ redis
 marshmallow
 pandas
 flask-smorest
-alembic
