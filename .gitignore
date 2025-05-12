@@ -1,0 +1,35 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+flask_env/
+
+# Environment variables
+.env
+
+# Docker files
+docker.txt
+
+# Flask specific files
+instance/
+*.log
+*.pot
+*.pyc
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Pipenv
+Pipfile
+Pipfile.lock
+
+# Pytest
+.pytest_cache/
