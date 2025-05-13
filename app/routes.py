@@ -1,8 +1,8 @@
 from flask_smorest import Blueprint, abort
 from flask import request, jsonify
-from sqlalchemy import func, extract
+from sqlalchemy import func, extract, text
 from .models import db, Sales
-from .schemas import SalesSchema, TopRevenueProductSchema
+from .schemas import SaleSchema, TopRevenueProductSchema
 from . import cache
 import time
 
@@ -16,7 +16,7 @@ def monthly_summary_no_cache():
     
     start = time.time()
     
-    sql_query = """
+    sql_query = text("""
         SELECT
             DATE_TRUNC('month', date) AS month,
             SUM(quantity) AS total_quantity,
@@ -25,12 +25,12 @@ def monthly_summary_no_cache():
         WHERE EXTRACT(YEAR FROM date) = :year
         GROUP BY month
         ORDER BY month
-    """
+    """)
     result = db.session.execute(sql_query, {'year': year}).fetchall()
     
     duration = time.time() - start
     
-    data = SalesSchema(many=True).dump(result)
+    data = SaleSchema(many=True).dump(result)
     return jsonify({"data": data, "duration": duration}), 200
 
 @analytics_bp.route('/monthly-summary/with-cache')

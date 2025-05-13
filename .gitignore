@@ -33,3 +33,6 @@ Pipfile.lock
 
 # Pytest
 .pytest_cache/
+
+# Ignore all CSV files under the 'data' folder
+data/*.csv

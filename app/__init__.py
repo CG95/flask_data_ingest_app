@@ -3,10 +3,9 @@ from .config import Config
 from flask_caching import Cache
 from flask_smorest import Api
 from flask_sqlalchemy import SQLAlchemy
-from .models import db
-from .routes import analytics_bp
 
-db= SQLAlchemy()
+# Define db here
+db = SQLAlchemy()
 cache = Cache()
 api = Api()
 
@@ -19,9 +18,13 @@ def create_app():
     
     # Initialize the cache
     cache.init_app(app)
+    print(f"Cache backend in use: {type(cache.cache).__name__}")
 
     # Initialize the API
     api.init_app(app)
+
+    #avoid circular import
+    from .routes import analytics_bp
     api.register_blueprint(analytics_bp)
 
     return app
