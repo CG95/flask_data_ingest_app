@@ -1,8 +1,10 @@
 # ./Dockerfile
 FROM python:3.11-slim
 
-# Install netcat for health‐checking
-RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+# install netcat-openbsd for healthchecks
+RUN apt-get update && \
+    apt-get install -y netcat-openbsd && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -10,11 +12,14 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy only what we need and fix permissions
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+
 # Copy application code
 COPY . .
 
-# Make entrypoint executable
-RUN chmod +x ./entrypoint.sh
 
 # Default command is in entrypoint.sh
 CMD []

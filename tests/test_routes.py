@@ -26,7 +26,7 @@ def test_app(tmp_path_factory):
     with app.app_context():
         db.create_all()
         # ingest a modest sized CSV to allow measurable durations
-        ingest_csv(os.path.join("data", "sample_sales.csv"))
+        ingest_csv(os.path.join("data", "sales_data.csv"))
     yield app
 
     # drop all tables

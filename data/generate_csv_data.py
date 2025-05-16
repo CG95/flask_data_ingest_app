@@ -5,9 +5,10 @@ from datetime import date
 from tqdm import tqdm
 
 # Configuration
-#OUTPUT_FILE = "tests\data\sales_data.csv"
+OUTPUT_FILE_TEST = "tests\data\sales_data.csv"
 OUTPUT_FILE = "data\sales_data.csv"
-NUM_SALES = 200_000        # Number of distinct sales (Sale_id)
+NUM_SALES = 900_000        # Number of distinct sales (Sale_id)
+NUM_SALES_TEST = 70_000        # Number of distinct sales (Sale_id)
 MAX_PRODUCTS_PER_SALE = 5  # Sale may have 1 to 5 products
 
 
@@ -29,13 +30,13 @@ PRODUCT_NAMES = [
     "Book", "Notebook", "E-reader", "Subscription Card", "Board Game", "Puzzle", "Toy Car", "Action Figure", "Doll", "Building Blocks"
 ]
 
-PRODUCT_ID_MAP = {i + 1: name for i, name in enumerate(PRODUCT_NAMES)}
+PRODUCT_ID_MAP = {i + 1: name + fake.color_name() for i, name in enumerate(PRODUCT_NAMES)}
 
 
 
-def generate_sales_data():
+def generate_sales_data(num_sales):
     rows = []
-    for sale_id in tqdm(range(1, NUM_SALES + 1)):
+    for sale_id in tqdm(range(1, num_sales + 1)):
         customer_id = random.randint(1000, 1999)
         sale_date = fake.date_between(start_date=date(2023, 1, 1), end_date=date(2024, 12, 31))
         num_products = random.randint(1, MAX_PRODUCTS_PER_SALE)
@@ -43,17 +44,17 @@ def generate_sales_data():
 
         for _ in range(num_products):
             product_id = random.randint(1, len(PRODUCT_NAMES))
-            product_name = PRODUCT_ID_MAP[product_id] + " " + fake.color_name()
+            product_name = PRODUCT_ID_MAP[product_id]
             quantity = random.randint(1, 10)
             price = round(random.uniform(5, 500), 2)
 
             rows.append({
-                "Sale_id": sale_id,
-                "Product_id": product_id,
-                "Product_name": product_name,
+                "sale_id": sale_id,
+                "product_id": product_id,
+                "product_name": product_name,
                 "quantity": quantity,
                 "price": price,
-                "sale_date": sale_date,
+                "date": sale_date,
                 "customer_id": customer_id,
                 "region": region
             })
@@ -62,9 +63,12 @@ def generate_sales_data():
     
 
 def main():
-    df = generate_sales_data()
+    df = generate_sales_data(NUM_SALES)
     df.to_csv(OUTPUT_FILE, index=False)
-    print("✅ File saved as: sales_data_multi_product.csv")
+    print(f"✅ File saved to {OUTPUT_FILE}")
+    df2 = generate_sales_data(NUM_SALES_TEST)
+    df2.to_csv(OUTPUT_FILE_TEST, index=False)
+    print(f"✅ File saved to {OUTPUT_FILE_TEST}")
 
 if __name__ == "__main__":
     main()

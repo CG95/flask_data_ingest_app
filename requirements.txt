@@ -8,3 +8,5 @@ marshmallow
 pandas
 flask-smorest
 pytest
+faker
+tqdm
