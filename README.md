@@ -9,3 +9,6 @@ python -m venv flask_env
 - `DATABASE_URL`
 - `REDIS_URL`
 - ...
+
+# Generate test data
+python generate_csv_data.py

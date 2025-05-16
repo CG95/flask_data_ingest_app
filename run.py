@@ -9,7 +9,7 @@ app = create_app()
 
 with app.app_context():
     # Create the database tables
-    db.create_all()
+    #db.create_all()
 
     # Check if any data exists
     if db.session.query(Sales).count() == 0:

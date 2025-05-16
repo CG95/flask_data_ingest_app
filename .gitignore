@@ -36,3 +36,7 @@ Pipfile.lock
 
 # Ignore all CSV files under the 'data' folder
 data/*.csv
+
+
+# Ignore all CSV files under the 'data' folder
+tests/data/*.csv

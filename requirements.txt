@@ -7,3 +7,4 @@ redis
 marshmallow
 pandas
 flask-smorest
+pytest

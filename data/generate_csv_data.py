@@ -5,8 +5,9 @@ from datetime import date
 from tqdm import tqdm
 
 # Configuration
+#OUTPUT_FILE = "tests\data\sales_data.csv"
 OUTPUT_FILE = "data\sales_data.csv"
-NUM_SALES = 300_000        # Number of distinct sales (Sale_id)
+NUM_SALES = 200_000        # Number of distinct sales (Sale_id)
 MAX_PRODUCTS_PER_SALE = 5  # Sale may have 1 to 5 products
 
 
