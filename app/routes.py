@@ -85,7 +85,9 @@ def top_products_no_cache():
     Get top 5 products by revenue for a given year (no cache).
 
     Query Parameters:
-        year (str): The year in 'YYYY' format.
+        start_date (str): Start date in 'YYYY-MM-DD' format (required).
+        end_date (str): End date in 'YYYY-MM-DD' format (required).
+        
 
     Returns:
         JSON response with top 5 products and query duration.
@@ -133,7 +135,8 @@ def top_products_with_cache():
     Get top 5 products by revenue for a given year (cached).
 
     Query Parameters:
-        year (str): The year in 'YYYY' format.
+        start_date (str): Start date in 'YYYY-MM-DD' format (required).
+        end_date (str): End date in 'YYYY-MM-DD' format (required).
 
     Returns:
         JSON response with top 5 products and query duration.

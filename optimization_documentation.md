@@ -1,5 +1,10 @@
 
-
+Initially started with a regular table Sales that contains the ingested csv data
+Then added partition by date on the table. The partitions store data in segments by year.
+The partitions let postgres query more efficiently when the amount of rows is very high.
+Next, I added indexes on date, region and product to satisfy the analytical queries that needed filtering by product, region, and date ranges, ensuring queries scale well with large datasets.
+I also added an Index on date, revenue , product_id and product_name to optimize the ranking of the top 5 products by revenue.
+For the monthly summary analytical query the partitioning strategy applied is enough to optimize the execution time.
 
 
 ## Performance optimization on Analytical query on sales by date range, region and product_id
