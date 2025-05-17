@@ -36,7 +36,7 @@ services:
       - .:/app
       - ./data:/app/data:ro
       - ./tests/data:/app/tests/data:ro
-    entrypoint: ["/app/entrypoint.sh"]
+    entrypoint: ["sh", "/app/entrypoint.sh"]
 
 
 volumes:
