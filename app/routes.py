@@ -2,7 +2,15 @@ from flask_smorest import Blueprint, abort
 from flask import request, jsonify, Response
 from sqlalchemy import func, extract, text
 from .models import db, Sales
-from .schemas import SaleSummarySchema, TopRevenueProductSchema, MonthlySaleSummarySchema
+from .schemas import( 
+    SaleSummarySchema,
+    SaleSummaryResponseSchema,
+    TopRevenueProductSchema,
+    TopRevenueProductResponseSchema,
+    MonthlySaleSummarySchema,
+    MonthlySaleSummaryResponseSchema
+)
+
 from . import cache
 import time
 from datetime import datetime
@@ -10,6 +18,7 @@ from datetime import datetime
 analytics_bp = Blueprint("analytics", "analytics", url_prefix="/analytics")
 
 @analytics_bp.route('/monthly-summary/no-cache')
+@analytics_bp.response(200, MonthlySaleSummaryResponseSchema)
 def monthly_summary_no_cache():
     """
     Get monthly sales summary for a given year (no cache).
@@ -54,6 +63,7 @@ def monthly_summary_no_cache():
 
 
 @analytics_bp.route('/monthly-summary')
+@analytics_bp.response(200, MonthlySaleSummaryResponseSchema)
 @cache.cached(timeout=600, query_string=True)
 def monthly_summary_with_cache():
     """
@@ -80,6 +90,7 @@ def monthly_summary_with_cache():
 
 #top products by revenue
 @analytics_bp.route('/top-products/no-cache')
+@analytics_bp.response(200, TopRevenueProductResponseSchema)
 def top_products_no_cache():
     """
     Get top 5 products by revenue for a given year (no cache).
@@ -112,7 +123,7 @@ def top_products_no_cache():
         SELECT
             product_id,
             product_name,
-            SUM(price * quantity) AS total_revenue
+            SUM(revenue) AS total_revenue
         FROM sales
         WHERE date BETWEEN :start_date AND :end_date
         GROUP BY product_id, product_name
@@ -129,6 +140,7 @@ def top_products_no_cache():
 
 
 @analytics_bp.route('/top-products')
+@analytics_bp.response(200, TopRevenueProductResponseSchema)
 @cache.cached(timeout=600)
 def top_products_with_cache():
     """
@@ -156,6 +168,7 @@ def top_products_with_cache():
 
 #get sales by product, region and date
 @analytics_bp.route('/sales-summary/no-cache')
+@analytics_bp.response(200, SaleSummaryResponseSchema)
 def sales_summary_no_cache():
     """
     Get sales summary by product, region, and date range (no cache).
@@ -223,6 +236,7 @@ def sales_summary_no_cache():
 
 #get sales by product, region and date (cached)
 @analytics_bp.route('/sales-summary')
+@analytics_bp.response(200, SaleSummaryResponseSchema)
 @cache.cached(timeout=600, query_string=True)
 def sales_summary_with_cache():
     """
