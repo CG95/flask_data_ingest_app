@@ -13,6 +13,7 @@ To import the csv files before running  the docker-compose command put the files
 - `POSTGRES_USER`
 - `POSTGRES_PASSWORD`
 - `POSTGRES_DB`
+- `CACHE_REDIS_HOST`
 
 # Generate csv data 
 If you need to generate the csv files to run the project use the generate_csv_data.py script, 
