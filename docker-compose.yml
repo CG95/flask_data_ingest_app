@@ -34,8 +34,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     volumes:
       - .:/app
-      - ./data:/app/data:ro
-      - ./tests/data:/app/tests/data:ro
+      - ./data:/app/data
+      - ./tests/data:/app/tests/data
     entrypoint: ["sh", "/app/entrypoint.sh"]
 
 

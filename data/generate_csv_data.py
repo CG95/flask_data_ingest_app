@@ -3,12 +3,16 @@ from faker import Faker
 import random
 from datetime import date
 from tqdm import tqdm
+from pathlib import Path
+
 
 # Configuration
-OUTPUT_FILE_TEST = "tests\data\sales_data.csv"
-OUTPUT_FILE = "data\sales_data.csv"
-NUM_SALES = 900_000        # Number of distinct sales (Sale_id)
-NUM_SALES_TEST = 70_000        # Number of distinct sales (Sale_id)
+BASE_DIR      = Path(__file__).parent
+OUTPUT_FILE   = BASE_DIR / "sales_data.csv"
+OUTPUT_FILE_TEST = Path(BASE_DIR).parent / "tests" / "data" / "sales_data.csv"
+
+NUM_SALES = 10_000        # Number of distinct sales (Sale_id)
+NUM_SALES_TEST = 1_000        # Number of distinct sales (Sale_id)
 MAX_PRODUCTS_PER_SALE = 5  # Sale may have 1 to 5 products
 
 
@@ -61,8 +65,17 @@ def generate_sales_data(num_sales):
 
     return pd.DataFrame(rows)
     
+def ensure_dir(path: Path):
+    """Ensure the directory for the given path exists."""
+    print(f"Ensuring directory exists for {path}")
+    if not path.parent.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
 
 def main():
+    # Ensure output directories exist
+    ensure_dir(OUTPUT_FILE)
+    ensure_dir(OUTPUT_FILE_TEST)
+    # Generate sales data
     df = generate_sales_data(NUM_SALES)
     df.to_csv(OUTPUT_FILE, index=False)
     print(f"✅ File saved to {OUTPUT_FILE}")

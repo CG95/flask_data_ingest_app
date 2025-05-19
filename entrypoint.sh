@@ -15,6 +15,14 @@ until nc -z redis 6379; do
 done
 echo "Redis is up."
 
-# Now run your Flask startup script (run.py)
+# Generate sales CSV if missing
+if [ ! -f data/sales_data.csv ] && [ ! -f tests/data/sales_data.csv ]; then
+  echo "sales_data.csv not found in data/ or tests/data/, generating it now…"
+  python data/generate_csv_data.py
+else
+  echo "sales_data.csv already exists, skipping generation."
+fi
+
+# Start the app
 echo "Starting Flask app…"
 python run.py
