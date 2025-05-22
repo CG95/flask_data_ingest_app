@@ -16,10 +16,10 @@ class Sales(db.Model):
     region = db.Column(db.String(100), nullable=False)
     created_at= db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at= db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-
-#    @property
-#    def revenue(self):
-#        return self.quantity * self.price
+    
+    @property
+    def revenue(self):
+        return self.quantity * self.price
 
 
 
