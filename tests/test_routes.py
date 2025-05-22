@@ -14,13 +14,18 @@ def test_app(tmp_path_factory):
     #sqlite in-memory database for testing
     db_dir = tmp_path_factory.mktemp("db")
     db_file = db_dir / "test.db"
-    os.environ["DATABASE_URL"] = f"sqlite:///{db_file.as_posix()}"
+    sqlite_url = f"sqlite:///{db_file.as_posix()}"
 
+    # Set the env var for consistency (optional)
+    os.environ["DATABASE_URL"] = sqlite_url
+    from app.config import Config
+    Config.SQLALCHEMY_DATABASE_URI = sqlite_url
+    
     app=create_app()
+    
     app.config.update({
         "TESTING": True,
-        #"CACHE_TYPE": "SimpleCache",
-        #"CACHE_DEFAULT_TIMEOUT": 10,
+         "SQLALCHEMY_DATABASE_URI": sqlite_url,
     })
     
     with app.app_context():
