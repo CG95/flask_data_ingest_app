@@ -30,8 +30,8 @@ jobs:
           --health-timeout=3s
           --health-retries=5
     env:
-      REDIS_URL: ${{ secrets.TEST_REDIS_URL }}
-      POSTGRES_URL: ${{ secrets.TEST_POSTGRES_URL }}
+      TEST_REDIS_URL: ${{ vars.TEST_REDIS_URL }}
+      TEST_POSTGRES_URL: ${{ vars.TEST_POSTGRES_URL }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
