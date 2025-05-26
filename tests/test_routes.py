@@ -11,21 +11,24 @@ from app.models import Sales
 @pytest.fixture(scope='module')
 def test_app(tmp_path_factory):
     """Create a new Flask app instance for testing."""
-    #sqlite in-memory database for testing
-    db_dir = tmp_path_factory.mktemp("db")
-    db_file = db_dir / "test.db"
-    sqlite_url = f"sqlite:///{db_file.as_posix()}"
-
-    # Set the env var for consistency (optional)
-    os.environ["DATABASE_URL"] = sqlite_url
-    from app.config import Config
-    Config.SQLALCHEMY_DATABASE_URI = sqlite_url
     
+    database_url = os.environ.get("TEST_POSTGRES_URL")
+    if not database_url:
+        raise RuntimeError("TEST_POSTGRES_URL environment variable not set")
+    
+    redis_host = os.environ.get("TEST_REDIS_URL")
+    if not redis_host:
+        raise RuntimeError("TEST_REDIS_URL environment variable not set")
+    
+    from app.config import Config
+    # override the config for testing
+    Config.SQLALCHEMY_DATABASE_URI = database_url
+    Config.CACHE_REDIS_HOST = redis_host
+
     app=create_app()
     
     app.config.update({
         "TESTING": True,
-         "SQLALCHEMY_DATABASE_URI": sqlite_url,
     })
     
     with app.app_context():

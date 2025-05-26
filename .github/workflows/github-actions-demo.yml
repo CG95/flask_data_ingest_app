@@ -9,10 +9,6 @@ jobs:
     services:
       postgres:
         image: postgres:16-alpine
-        env:
-          POSTGRES_USER: ${{ secrets.TEST_POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.TEST_POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
@@ -32,6 +28,9 @@ jobs:
     env:
       REDIS_URL: ${{ secrets.TEST_REDIS_URL }}
       POSTGRES_URL: ${{ secrets.TEST_POSTGRES_URL }}
+      POSTGRES_USER: ${{ secrets.TEST_POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.TEST_POSTGRES_DB }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
