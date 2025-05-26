@@ -7,6 +7,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ${{ secrets.TEST_POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.TEST_POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.TEST_POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       redis:
         image: redis:7-alpine
         ports:
@@ -17,7 +30,8 @@ jobs:
           --health-timeout=3s
           --health-retries=5
     env:
-      REDIS_URL: redis://localhost:6379/0
+      REDIS_URL: ${{ secrets.TEST_REDIS_URL }}
+      POSTGRES_URL: ${{ secrets.TEST_POSTGRES_URL }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -25,7 +39,7 @@ jobs:
       - name: Set up Python test
         uses: actions/setup-python@v5
         with:
-        # Set up Python version. The architecture is set to x64 by default.
+          # Set up Python version. The architecture is set to x64 by default.
           python-version: "3.11"
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
@@ -36,4 +50,3 @@ jobs:
       - name: Test with pytest
         run: |
           pytest -q
-
