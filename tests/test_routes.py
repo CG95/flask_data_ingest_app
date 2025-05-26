@@ -29,9 +29,12 @@ def test_app(tmp_path_factory):
     
     app.config.update({
         "TESTING": True,
+        "SQLALCHEMY_DATABASE_URI": database_url,
+        "CACHE_REDIS_URL": redis_host,
     })
     
     with app.app_context():
+        db.drop_all()
         db.create_all()
         # ingest a modest sized CSV to allow measurable durations
         ingest_csv(os.path.join("data", "sales_data.csv"))
