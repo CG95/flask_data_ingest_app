@@ -34,11 +34,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Show current working directory
-        run: |
-          echo "📌 PWD:" $(pwd)
-          echo "📂 Listing all files:"
-          ls -Rla .
       - name: Wait for Postgres to be ready
         run: |
           echo "Waiting for Postgres to be ready..."
@@ -50,7 +45,7 @@ jobs:
         env:
           PGPASSWORD: ${{ vars.TEST_POSTGRES_PASSWORD }}
         run: |
-          psql -h localhost -p 5432 -U postgres -d test_db -f data/init-db.sql
+          psql -h localhost -p 5432 -U postgres -d test_db -f data/init_db.sql
       - name: Set up Python test
         uses: actions/setup-python@v5
         with:
