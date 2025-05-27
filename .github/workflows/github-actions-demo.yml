@@ -45,7 +45,7 @@ jobs:
         env:
           PGPASSWORD: ${{ vars.TEST_POSTGRES_PASSWORD }}
         run: |
-          psql -h localhost -p 5432 -U postgres -d test_db -f init-db.sql
+          psql -h localhost -p 5432 -U postgres -d test_db -f data/init-db.sql
       - name: Set up Python test
         uses: actions/setup-python@v5
         with:
