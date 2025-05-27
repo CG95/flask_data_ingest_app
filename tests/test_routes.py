@@ -20,14 +20,17 @@ def test_app():
     if not redis_host:
         raise RuntimeError("TEST_REDIS_URL environment variable not set")
     
-    os.environ["CACHE_TYPE"] = "RedisCache"
-    os.environ["CACHE_REDIS_HOST"] = os.environ["TEST_REDIS_URL"]
-    os.environ["SQLALCHEMY_DATABASE_URI"] = database_url
+    from app.config import Config
+    # override the config for testing
+    Config.SQLALCHEMY_DATABASE_URI = database_url
+    Config.CACHE_REDIS_HOST = redis_host
 
     app=create_app()
     
     app.config.update({
         "TESTING": True,
+        "SQLALCHEMY_DATABASE_URI": database_url,
+        "CACHE_REDIS_URL": redis_host,
     })
     
     with app.app_context():

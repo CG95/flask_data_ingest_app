@@ -10,8 +10,6 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CACHE_TYPE = 'RedisCache'
     CACHE_REDIS_HOST = os.getenv("CACHE_REDIS_HOST", "localhost")
-    CACHE_REDIS_PORT = 6379
-    CACHE_REDIS_DB = 0
     CACHE_DEFAULT_TIMEOUT = 300
     # REQUIRED for flask-smorest / OpenAPI
     API_TITLE = "Sales Analytics API"
