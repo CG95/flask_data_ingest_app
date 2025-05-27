@@ -23,14 +23,14 @@ def test_app():
     from app.config import Config
     # override the config for testing
     Config.SQLALCHEMY_DATABASE_URI = database_url
-    Config.CACHE_REDIS_HOST = redis_host
+    #Config.CACHE_REDIS_HOST = redis_host
+    os.environ["CACHE_REDIS_URL"] = redis_host
+    os.environ["CACHE_TYPE"]      = "RedisCache"
 
     app=create_app()
     
     app.config.update({
         "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": database_url,
-        "CACHE_REDIS_URL": redis_host,
     })
     
     with app.app_context():
