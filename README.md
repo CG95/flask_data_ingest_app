@@ -15,11 +15,11 @@ A .env file is needed to store the environment variables or setting the environm
 
 The variables to be set are:
 
-- `DATABASE_URL` : the connection string in this format => postgresql://myuser:mypassword@postgresql/mydbname
+- `DATABASE_URL` : the postgres connection string, e.g., postgresql://myuser:mypassword@postgresql/mydbname
 - `POSTGRES_USER`: myuser
 - `POSTGRES_PASSWORD`: mypassword
 - `POSTGRES_DB` : mydbname
-- `CACHE_REDIS_HOST`: redis
+- `CACHE_REDIS_HOST`: the redis connection string, e.g., redis://redis:6379/0
 
 ## Generate csv data
 
