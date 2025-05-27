@@ -9,7 +9,7 @@ from app.models import Sales
 
 
 @pytest.fixture(scope='module')
-def test_app(tmp_path_factory):
+def test_app():
     """Create a new Flask app instance for testing."""
     
     database_url = os.environ.get("TEST_POSTGRES_URL")
@@ -20,17 +20,14 @@ def test_app(tmp_path_factory):
     if not redis_host:
         raise RuntimeError("TEST_REDIS_URL environment variable not set")
     
-    from app.config import Config
-    # override the config for testing
-    Config.SQLALCHEMY_DATABASE_URI = database_url
-    Config.CACHE_REDIS_HOST = redis_host
+    os.environ["CACHE_TYPE"] = "RedisCache"
+    os.environ["CACHE_REDIS_HOST"] = os.environ["TEST_REDIS_URL"]
+    os.environ["SQLALCHEMY_DATABASE_URI"] = database_url
 
     app=create_app()
     
     app.config.update({
         "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": database_url,
-        "CACHE_REDIS_URL": redis_host,
     })
     
     with app.app_context():
